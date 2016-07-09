@@ -1,0 +1,25 @@
+{
+  "name": "morawskim/doctrine-annotations-example",
+  "require": {
+    "doctrine/annotations": "~1.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "AnnotationsExample\\": "src/AnnotationsExample"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AnnotationsExampleTests\\": "tests/AnnotationsExampleTests"
+    }
+  },
+  "authors": [
+    {
+      "name": "Marcin Morawski",
+      "email": "marcin@morawskim.pl"
+    }
+  ]
+}
