@@ -1,0 +1,22 @@
+{
+    "name": "mmo-examples/yii2-swiftmailer-embedding-images",
+    "type": "project",
+    "require": {
+        "yiisoft/yii2": "^2.0.4",
+        "yiisoft/yii2-swiftmailer": "*"
+    },
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Marcin Morawski",
+            "email": "marcin@morawskim.pl"
+        }
+    ],
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    }
+}
