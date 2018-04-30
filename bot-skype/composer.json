@@ -1,0 +1,17 @@
+{
+    "name": "morawskim/bot-skype-example",
+    "type": "project",
+    "require": {
+        "botman/botman": "^2.3",
+        "botman/driver-botframework": "^1.1",
+        "symfony/dotenv": "^3.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcin Morawski",
+            "email": "marcin@morawskim.pl"
+        }
+    ],
+    "minimum-stability": "stable"
+}
