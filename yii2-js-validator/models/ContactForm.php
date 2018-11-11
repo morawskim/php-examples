@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\validators\DateValidator;
 use Yii;
 use yii\base\Model;
 
@@ -11,6 +12,7 @@ use yii\base\Model;
 class ContactForm extends Model
 {
     public $name;
+    public $date;
     public $email;
     public $subject;
     public $body;
@@ -27,6 +29,8 @@ class ContactForm extends Model
             [['name', 'email', 'subject', 'body'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
+            // date has to be a valid date
+            ['date', DateValidator::class, 'format' => 'php:Y-m-d'],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
         ];
