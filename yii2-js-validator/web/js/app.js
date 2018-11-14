@@ -12,3 +12,15 @@ function dateValidator(value, messages, options) {
         messages.push(options['message']);
     }
 }
+
+function fakeAsyncValidator(value, messages, options, deferredList) {
+    var deferred = $.Deferred();
+    setTimeout(function () {
+        if (value !== "pass") {
+            messages.push(options['message']);
+        }
+        deferred.resolve();
+    }, 1000);
+    deferredList.push(deferred);
+}
+

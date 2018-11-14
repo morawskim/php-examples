@@ -47,6 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'date')->textInput(['placeholder' => 'YYYY-MM-DD']) ?>
 
+                <?= $form->field($model, 'ajaxFakeValidator')->textInput(['placeholder' => 'Set validator error message after 1s, if value is other than "pass"']) ?>
+
                 <?= $form->field($model, 'email') ?>
 
                 <?= $form->field($model, 'subject') ?>
