@@ -1,0 +1,48 @@
+version: '3'
+services:
+    cms:
+        build: .
+        volumes:
+          - ./:/app
+        depends_on:
+          - mysql
+          - memcached
+        links:
+          - mysql
+          - memcached
+        labels:
+          traefik.backend: "cms"
+          traefik.frontend.rule: "Host:${DEV_SERVER_NAME}"
+        environment:
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${COMPOSER_GITHUB_OUATH}"}}'
+          PHP_IDE_CONFIG: "serverName=${DEV_SERVER_NAME}"
+          XDEBUG_CONFIG: "remote_host=${MY_IP}"
+    mysql:
+        image: mysql:5.6
+        volumes:
+            - ./var/.docker-data/db_data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: cms
+            MYSQL_USER: cms
+            MYSQL_PASSWORD: cmspassword
+        ports:
+            - "3307:3306"
+    memcached:
+        image: memcached:1.5
+    phpmemcachedadmin:
+      image: jacksoncage/phpmemcachedadmin
+      links:
+        - memcached
+      labels:
+        traefik.backend: "phpmemcachedadmin"
+        traefik.frontend.rule: "Host:phpmemcachedadmin.lvh.me"
+    traefik:
+        image: traefik
+        command: --web --docker --logLevel=DEBUG
+        ports:
+          - "80:80"
+          - "8080:8080"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /dev/null:/etc/traefik/traefik.toml
