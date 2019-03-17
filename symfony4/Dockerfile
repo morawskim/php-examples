@@ -21,6 +21,7 @@ RUN rm -rf /var/www/html && ln -s /app/public /var/www/html || true
 RUN a2enmod rewrite headers
 RUN docker-php-ext-install \
         intl \
+        pdo_mysql \
         zip
 
 RUN pecl install memcached
