@@ -14,7 +14,7 @@ services:
           traefik.backend: "cms"
           traefik.frontend.rule: "Host:${DEV_SERVER_NAME}"
         environment:
-          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${COMPOSER_GITHUB_OUATH}"}}'
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${COMPOSER_GITHUB_OAUTH}"}}'
           PHP_IDE_CONFIG: "serverName=${DEV_SERVER_NAME}"
           XDEBUG_CONFIG: "remote_host=${MY_IP}"
     mysql:
