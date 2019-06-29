@@ -1,0 +1,51 @@
+version: '3.4'
+services:
+  laravel:
+      build: ./
+      volumes:
+          - ./:/app
+      depends_on:
+          - postgres
+      links:
+          - postgres
+      labels:
+          traefik.backend: "laravel"
+          traefik.frontend.rule: "Host:${DEV_SERVER_NAME}"
+      environment:
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${COMPOSER_GITHUB_OAUTH}"}}'
+          PHP_IDE_CONFIG: "serverName=${DEV_SERVER_NAME}"
+          XDEBUG_CONFIG: "remote_host=${MY_IP}"
+  cli:
+      image: edbizarro/gitlab-ci-pipeline-php:5.6
+      volumes:
+          - ./:/app
+      user: ${MY_UID:-1000}
+      tty: true
+      working_dir: /app
+      environment:
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${COMPOSER_GITHUB_OAUTH}"}}'
+      depends_on:
+        - postgres
+      links:
+        - postgres
+  traefik:
+      image: traefik
+      command: --web --docker --logLevel=DEBUG
+      ports:
+        - "8000:80"
+        - "8080:8080"
+        - "4443:443"
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /dev/null:/etc/traefik/traefik.toml
+  postgres:
+      image: postgres:9.6
+      environment:
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=password
+          - POSTGRES_DB=postgres
+      ports:
+          - 5432:5432
+      volumes:
+          - .runtime/postgres:/var/lib/postgresql/data
+
