@@ -1,0 +1,21 @@
+version: '3.4'
+services:
+    php:
+        image: php:7.2-cli
+        volumes:
+            - ./:/app
+        working_dir: /app
+        command: 'php -S 0.0.0.0:8080 -t /app/public'
+        ports:
+            - 3456:8080
+    nodejs:
+        image: node:10-alpine
+        environment:
+            - NODE_ENV=production
+        user: "node"
+        working_dir: /home/node/app
+        volumes:
+            - ./:/home/node/app
+        command: "npm start"
+        ports:
+            - 8765:8765
