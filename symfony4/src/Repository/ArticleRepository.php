@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Model\ArticleFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,28 @@ class ArticleRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Article::class);
+    }
+
+    /**
+     * @param ArticleFilter $filter
+     * @return Article[]
+     */
+    public function search(ArticleFilter $filter): array
+    {
+        $query = $this->createQueryBuilder('a');
+        $name = $filter->getName();
+        if (null !== $name) {
+            $query->andWhere('a.title LIKE :title');
+            $query->setParameter('title', '%' . $name .'%');
+        }
+        $dateRange = $filter->getDateRange();
+        if (null !== $dateRange) {
+            $query->andWhere('a.publishedAt BETWEEN :from AND :to');
+            $query->setParameter('from', $dateRange->getFrom()->format('Y-m-d'));
+            $query->setParameter('to', $dateRange->getTo()->format('Y-m-d'));
+        }
+
+        return $query->getQuery()->getResult();
     }
 
     // /**

@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Form\ArticleFilterType;
 use App\Form\ArticleType;
+use App\Model\ArticleFilter;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +20,21 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="article_index", methods={"GET"})
      */
-    public function index(ArticleRepository $articleRepository): Response
+    public function index(ArticleRepository $articleRepository, Request $request): Response
     {
+        $filter = new ArticleFilter();
+        $form = $this->createForm(ArticleFilterType::class, $filter, ['method' => 'GET']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $articles = $articleRepository->search($filter);
+        } else {
+            $articles = $articleRepository->findAll();
+        }
+
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articles,
+            'form' => $form->createView(),
         ]);
     }
 
