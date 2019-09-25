@@ -28,4 +28,9 @@ class AjaxFakeValidator extends Validator
 
         return $options;
     }
+
+    protected function validateValue($value)
+    {
+        return null;
+    }
 }

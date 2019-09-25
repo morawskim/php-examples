@@ -62,6 +62,10 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $model = new ContactForm();
+        if (Yii::$app->getRequest()->isPost) {
+            $model->load(Yii::$app->getRequest()->post(), $model->formName());
+            $model->validate();
+        }
         return $this->render('index', [
             'model' => $model,
         ]);
