@@ -1,0 +1,49 @@
+version: '3.4'
+services:
+  php:
+    build: .
+    volumes:
+        - ./:/app
+    working_dir: /app
+    tty: true
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+        - ./.data/mysqldata:/var/lib/mysql
+    environment:
+        MYSQL_ROOT_PASSWORD: password
+        MYSQL_DATABASE: benchmark
+        MYSQL_USER: benchmark
+        MYSQL_PASSWORD: benchmark
+
+  postgres:
+     image: postgres:9.6
+     environment:
+         - POSTGRES_USER=benchmark
+         - POSTGRES_PASSWORD=benchmark
+         - POSTGRES_DB=benchmark
+     volumes:
+         - ./.data/postgres:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:4.7
+    depends_on:
+        - mysql
+        - postgres
+    links:
+        - mysql
+        - postgres
+    labels:
+        traefik.backend: "adminer"
+        traefik.frontend.rule: "Host:adminer.lvh.me"
+
+  traefik:
+    image: traefik
+    command: --web --docker --logLevel=DEBUG
+    ports:
+      - "8000:80"
+      - "8088:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/etc/traefik/traefik.toml
