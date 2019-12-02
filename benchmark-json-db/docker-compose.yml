@@ -9,6 +9,7 @@ services:
 
   mysql:
     image: mysql:5.7
+    command: ['mysqld',  '--innodb-flush-method=nosync']
     volumes:
         - ./.data/mysqldata:/var/lib/mysql
     environment:
@@ -19,6 +20,7 @@ services:
 
   postgres:
      image: postgres:9.6
+     command: ["postgres", "-c", "fsync=off"]
      environment:
          - POSTGRES_USER=benchmark
          - POSTGRES_PASSWORD=benchmark
