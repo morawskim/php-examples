@@ -5,7 +5,8 @@
         "fzaninotto/faker": "^1.9",
         "symfony/console": "^5.0",
         "symfony/stopwatch": "^5.0",
-        "yiisoft/yii2": "^2.0"
+        "yiisoft/yii2": "^2.0",
+        "yiisoft/yii2-mongodb": "^2.1"
     },
     "license": "MIT",
     "authors": [

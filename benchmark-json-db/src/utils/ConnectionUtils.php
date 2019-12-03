@@ -34,4 +34,17 @@ class ConnectionUtils
         $connectionManager = ConnectionManager::getInstance();
         $connectionManager->postgresConnection = $connection;
     }
+
+    public static function setupMongoDbConnection()
+    {
+        $connection = new \yii\mongodb\Connection([
+            'dsn' => 'mongodb://@mongodb:27017/benchmark',
+            'options' => [
+                "username" => "benchmark",
+                "password" => "benchmark"
+            ]
+        ]);
+        $connectionManager = ConnectionManager::getInstance();
+        $connectionManager->mongodbConnection = $connection;
+    }
 }

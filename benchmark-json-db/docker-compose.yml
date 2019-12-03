@@ -28,14 +28,25 @@ services:
      volumes:
          - ./.data/postgres:/var/lib/postgresql/data
 
+  mongodb:
+     image: mongo:3.6
+     environment:
+         - MONGO_INITDB_ROOT_USERNAME=admin
+         - MONGO_INITDB_ROOT_PASSWORD=adminpassword
+         - MONGO_INITDB_DATABASE=benchmark
+     volumes:
+         - ./.data/mongodb:/data/db
+
   adminer:
     image: adminer:4.7
     depends_on:
         - mysql
         - postgres
+        - mongodb
     links:
         - mysql
         - postgres
+        - mongodb
     labels:
         traefik.backend: "adminer"
         traefik.frontend.rule: "Host:adminer.lvh.me"

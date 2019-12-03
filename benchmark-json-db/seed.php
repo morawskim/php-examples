@@ -2,6 +2,7 @@
 
 use App\models\ItemMysql;
 use App\models\ItemPostgres;
+use App\models\ItemMongoDb;
 use App\utils\ConnectionUtils;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -19,11 +20,13 @@ $progressBar->setRedrawFrequency(1000);
 
 ConnectionUtils::setupMySqlConnection();
 ConnectionUtils::setupPostgresConnection();
+ConnectionUtils::setupMongoDbConnection();
 
 for ($i = 0; $i < LIMIT; $i++) {
     $person = createPerson($faker);
     saveToMysql($person);
     saveToPostgres($person);
+    saveToMongoDb($person);
     $progressBar->advance();
 }
 $progressBar->finish();
@@ -36,6 +39,12 @@ function saveToMysql(stdClass $person) {
 
 function saveToPostgres(stdClass $person) {
     $row = new ItemPostgres();
+    $row->data = $person;
+    $row->save();
+}
+
+function saveToMongoDb(stdClass $person) {
+    $row = new ItemMongoDb();
     $row->data = $person;
     $row->save();
 }

@@ -14,6 +14,9 @@ final class ConnectionManager
     /** @var Connection */
     public $postgresConnection;
 
+    /** \yii\mongodb\Connection */
+    public $mongodbConnection;
+
     private function __construct() {}
 
     private function __clone() {}
