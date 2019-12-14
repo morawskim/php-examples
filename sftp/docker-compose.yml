@@ -1,0 +1,13 @@
+version: '3.4'
+services:
+    sftp:
+      image: phpstorm/sftp-server
+      volumes:
+        - ./ssh/id.rsa.pub:/home/userPHP/.ssh/keys/id_rsa.pub:ro
+      command: userPHP:userPHPpassword:1001
+    php:
+      build: .
+      volumes:
+        - ./:/app
+      working_dir: /app
+      tty: true

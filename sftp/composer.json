@@ -1,0 +1,15 @@
+{
+    "name": "marcin/sftp",
+    "type": "project",
+    "require": {
+        "league/flysystem-sftp": "^1.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcin Morawski",
+            "email": "marcin@morawskim.pl"
+        }
+    ],
+    "minimum-stability": "stable"
+}
