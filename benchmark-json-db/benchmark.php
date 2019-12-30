@@ -10,9 +10,11 @@ require_once __DIR__ . '/vendor/yiisoft/yii2/Yii.php';
 
 const MYSQL = 'mysql';
 const POSTGRES = 'postgres';
+const MONGO = 'mongodb';
 
 ConnectionUtils::setupMySqlConnection();
 ConnectionUtils::setupPostgresConnection();
+ConnectionUtils::setupMongoDbConnection();
 
 
 $stopwatch = new Stopwatch(true);
@@ -30,6 +32,18 @@ $command = ConnectionManager::getInstance()->postgresConnection->createCommand(
 $data = $command->query()->readAll();
 $event = $stopwatch->stop(POSTGRES);
 printProfileData(POSTGRES, $event);
+
+$stopwatch->start(MONGO);
+$command = ConnectionManager::getInstance()->mongodbConnection->createCommand()->find('items', [
+  'data.sex' => 'FEMALE',
+  'data.pep' => true,
+  'data.pepFamily' => false,
+  'data.contactData.city' => 'Warszawa',
+  'data.questionablePersonDocument' => true,
+], ['limit' => 500]);
+$data = $command->toArray();
+$event = $stopwatch->stop(MONGO);
+printProfileData(MONGO, $event);
 
 function printProfileData(string $name, StopwatchEvent $event) {
     printf('[%s] Take %f and consume %d memory', $name, $event->getDuration(), $event->getMemory());
