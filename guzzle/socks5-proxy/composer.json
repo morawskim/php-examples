@@ -1,0 +1,16 @@
+{
+    "name": "marcin/socks5-proxy",
+    "description": "Example guzzle and socks5 proxy",
+    "type": "project",
+    "require": {
+        "guzzlehttp/guzzle": "^6.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcin Morawski",
+            "email": "marcin@morawskim.pl"
+        }
+    ],
+    "minimum-stability": "stable"
+}
