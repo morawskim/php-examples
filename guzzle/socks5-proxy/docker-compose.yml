@@ -6,4 +6,9 @@ services:
        - ./:/app
      working_dir: /app
      command: 'php index.php'
-     network_mode: 'host'
+     depends_on:
+       - tor
+     links:
+       - tor
+   tor:
+     image: peterdavehello/tor-socks-proxy:latest

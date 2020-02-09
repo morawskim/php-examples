@@ -6,6 +6,13 @@ When I use the private SOCKS5 server I didn't have any problems. Testing with `p
 
 ## Run
 First you must install dependiences. In project root run `docker run --rm -v $PWD:/app composer composer install`
-`php` container bind to the host network, so you don't need to copy your ssh keys/config to the container.
-You can check guzzle can use SOCKS5 proxy by run `docker-compose run --rm php php index.php <SOCKS5_PROXY>`
+`php` container links to tor container, so you don't need your own SOCKS5 proxy server. Remember, establish tor connection require some time - check logs (`docker-compose logs -f tor`) for established Tor circuit.
+```
+....
+tor_1  | Feb 09 10:52:51.000 [notice] Bootstrapped 95% (circuit_create): Establishing a Tor circuit
+tor_1  | Feb 09 10:52:52.000 [notice] Bootstrapped 100% (done): Done
+...
+```
+
+You can check guzzle can use SOCKS5 proxy by run `docker-compose run --rm php php index.php <SOCKS5_PROXY>`. If you want to use tor circuit pass `tor:9150`.
 In the output you will see the message `Using socks5 server: <SOCKS5_PROXY>` and below public IP address of your socks5 server.

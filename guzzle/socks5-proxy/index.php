@@ -14,7 +14,7 @@ echo 'Using socks5 server: ' . $proxy;
 echo PHP_EOL;
 
 $client = new \GuzzleHttp\Client([
-    'base_uri' => 'https://ifconfig.co'
+    'base_uri' => 'https://api.ipify.org'
 ]);
 
 $response = $client->get('/', [
