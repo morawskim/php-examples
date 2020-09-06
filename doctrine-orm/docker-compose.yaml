@@ -1,0 +1,29 @@
+version: '3.4'
+services:
+    php:
+        build:
+          context: .
+          dockerfile: Dockerfile
+          args:
+            - WITH_XDEBUG=true
+        volumes:
+            - ./:/app
+        working_dir: /app
+        command: 'php -a'
+        tty: true
+        environment:
+            XDEBUG_CONFIG: "remote_connect_back=0 remote_host=${MY_IP:-172.17.0.1} remote_enable=1 remote_port=9000"
+            PHP_IDE_CONFIG: "serverName=${DEV_SERVER_NAME:-doctrine.lvh.me}"
+    mysql:
+        image: mysql:5.7
+        volumes:
+            - mysqldata:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: rootpassword
+            MYSQL_DATABASE: doctrine
+            MYSQL_USER: user
+            MYSQL_PASSWORD: userpassword
+        ports:
+            - "3307:3306"
+volumes:
+    mysqldata:
