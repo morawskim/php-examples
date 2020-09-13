@@ -1,0 +1,23 @@
+version: '3.4'
+services:
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                - WITH_XDEBUG=true
+        volumes:
+            - ./:/app
+        working_dir: /app
+        command: 'php -a'
+        tty: true
+    cli:
+        image: edbizarro/gitlab-ci-pipeline-php:7.4
+        volumes:
+            - ./:/app
+        user: ${MY_UID:-1000}
+        tty: true
+        working_dir: /app
+        #environment:
+            #COMPOSER_AUTH: '{"github-oauth": {"github.com": "${COMPOSER_GITHUB_OAUTH}"}}'
+
