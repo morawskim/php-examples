@@ -1,9 +1,3 @@
-variable "vpc_cidr" {}
-variable "vpc_public_subnet" {}
-variable "vpc_private_subnet" {}
-variable "vpc_subnet_availability_zone" {}
-
-# Create VPC and attach Internet Gateway
 resource "aws_vpc" "Main" {
   cidr_block       = var.vpc_cidr
   instance_tenancy = "default"
@@ -20,21 +14,25 @@ resource "aws_internet_gateway" "IGW" {
 
 # Create a Public and Private Subnets
 resource "aws_subnet" "public_subnet" {
+  for_each = var.subnets_public
+
   vpc_id =  aws_vpc.Main.id
-  cidr_block = "${var.vpc_public_subnet}"
-  availability_zone= "${var.vpc_subnet_availability_zone}"
+  cidr_block = each.value["cidr"]
+  availability_zone= each.value["az"]
   map_public_ip_on_launch = true
   tags = {
-    Name = "MainPublic"
+    Name = "MainPublic-${each.key}"
   }
 }
 resource "aws_subnet" "private_subnet" {
+  for_each = var.subnets_private
+
   vpc_id =  aws_vpc.Main.id
-  cidr_block = "${var.vpc_private_subnet}"
+  cidr_block = each.value["cidr"]
+  availability_zone= each.value["az"]
   map_public_ip_on_launch = false
-  availability_zone= "${var.vpc_subnet_availability_zone}"
   tags = {
-    Name = "MainPrivate"
+    Name = "MainPrivate-${each.key}"
   }
 }
 
@@ -47,7 +45,7 @@ resource "aws_eip" "natIP" {
 }
 resource "aws_nat_gateway" "NAT" {
   allocation_id = aws_eip.natIP.id
-  subnet_id = aws_subnet.public_subnet.id
+  subnet_id = aws_subnet.public_subnet[var.default-az].id
   tags = {
     Name = "MainNAT"
   }
@@ -65,7 +63,9 @@ resource "aws_route_table" "PublicRT" {
   }
 }
 resource "aws_route_table_association" "PublicRTAssociation" {
-  subnet_id = aws_subnet.public_subnet.id
+  for_each = aws_subnet.public_subnet
+
+  subnet_id = each.value.id
   route_table_id = aws_route_table.PublicRT.id
 }
 
@@ -81,6 +81,8 @@ resource "aws_route_table" "PrivateRT" {
   }
 }
 resource "aws_route_table_association" "PrivateRTAssociation" {
-    subnet_id = aws_subnet.private_subnet.id
-    route_table_id = aws_route_table.PrivateRT.id
+  for_each = aws_subnet.private_subnet
+
+  subnet_id = each.value.id
+  route_table_id = aws_route_table.PrivateRT.id
 }
