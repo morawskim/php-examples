@@ -1,0 +1,31 @@
+version: '3.4'
+services:
+  beanstalkd:
+    image: schickling/beanstalkd
+    command: -b /beanstalkd -f0
+    volumes:
+      - beanstalkd:/beanstalkd
+  beanstalk_console:
+    image: thedavis/beanstalkd-ui:0.0.2
+    environment:
+      BEANSTALKD_HOST: beanstalkd
+      BEANSTALKD_PORT: 11300
+    ports:
+      - "8000:80"
+  php:
+    image: php:8.0-cli
+    volumes:
+        - ./:/app
+    working_dir: /app
+    command: 'php -a'
+    tty: true
+  cli:
+    image: edbizarro/gitlab-ci-pipeline-php:8.0
+    volumes:
+        - ./:/app
+    user: ${MY_UID:-1000}
+    tty: true
+    working_dir: /app
+
+volumes:
+  beanstalkd:
