@@ -1,0 +1,7 @@
+{
+    "require": {
+        "php": "^8.0",
+        "pusher/pusher-php-server": "^7.0",
+        "symfony/dotenv": "^6.0"
+    }
+}

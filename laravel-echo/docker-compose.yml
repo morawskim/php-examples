@@ -1,0 +1,32 @@
+version: '3.4'
+services:
+  soketi:
+    image: 'quay.io/soketi/soketi:0.30.2-16-alpine'
+    restart: unless-stopped
+    ports:
+      - '6001:6001'
+    environment:
+      DEBUG: '0'
+      DEFAULT_APP_ID: $SOKETI_APP_ID
+      DEFAULT_APP_KEY: $SOKETI_APP_KEY
+      DEFAULT_APP_SECRET: $SOKETI_APP_SECRET
+  php:
+    image: php:8.0-cli
+    volumes:
+        - ./:/app
+    working_dir: /app
+    command: 'php -S 0.0.0.0:8080 -t public'
+    ports:
+      - "8080:8080"
+  cli:
+    image: edbizarro/gitlab-ci-pipeline-php:8.0
+    volumes:
+        - ./:/app
+    user: ${MY_UID:-1000}
+    tty: true
+    working_dir: /app
+    environment:
+      SOKETI_APP_KEY: $SOKETI_APP_KEY
+      WS_HOST: 127.0.0.1
+      WS_PORT: 6001
+      WSS_PORT: 6001
