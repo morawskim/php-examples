@@ -1,0 +1,22 @@
+{
+    "name": "marcin/routing",
+    "type": "project",
+    "require": {
+        "symfony/config": "^6.0",
+        "symfony/http-foundation": "^6.0",
+        "symfony/routing": "^6.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Marcin Morawski",
+            "email": "marcin@morawskim.pl"
+        }
+    ],
+    "minimum-stability": "stable"
+}

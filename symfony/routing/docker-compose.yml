@@ -1,0 +1,17 @@
+version: '3.4'
+services:
+  php:
+      image: php:8.0-cli
+      volumes:
+          - ./:/var/www/html
+      working_dir: /var/www/html
+      command: 'php -S 0.0.0.0:8080 -t /var/www/html/public'
+      ports:
+          - "8000:8080"
+  cli:
+      image: edbizarro/gitlab-ci-pipeline-php:8.0
+      volumes:
+          - ./:/var/www/html
+      user: ${MY_UID:-1000}
+      tty: true
+      working_dir: /var/www/html
