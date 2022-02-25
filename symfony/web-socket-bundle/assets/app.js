@@ -6,7 +6,7 @@
  */
 
 import WS from '../vendor/gos/web-socket-bundle/public/js/websocket.js';
-const websocket = WS.connect("ws://127.0.0.1:8080");
+const websocket = WS.connect("ws://ws.lvh.me");
 const logger = document.getElementById('logger');
 
 const log = (message, object = {}) => {

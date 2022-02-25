@@ -11,8 +11,11 @@ services:
       - ./:/app
     working_dir: /app
     command: 'php -S 0.0.0.0:8080 -t /app/public'
-    ports:
-      - "80:8080"
+    labels:
+      traefik.backend: "php"
+      traefik.port: "8080"
+      traefik.frontend.rule: "HostRegexp: {everything:.*}"
+      traefik.frontend.priority: "1"
   ws:
     build:
       context: .
@@ -24,8 +27,6 @@ services:
       - ./:/app
     working_dir: /app
     command: 'php bin/console gos:websocket:server'
-    ports:
-      - "8080:${GOS_WEB_SOCKET_SERVER_PORT}"
   cli:
     image: edbizarro/gitlab-ci-pipeline-php:8.0
     volumes:
@@ -33,3 +34,21 @@ services:
     user: ${MY_UID:-1000}
     tty: true
     working_dir: /app
+  httpd:
+    image: nginx:1.19-alpine
+    depends_on:
+        - ws
+    labels:
+        traefik.backend: "httpd"
+        traefik.frontend.rule: "Host:ws.lvh.me"
+    volumes:
+        - ./provision/vhost.conf:/etc/nginx/conf.d/default.conf
+  traefik:
+    image: traefik:1.7
+    command: --web --docker --logLevel=DEBUG
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/etc/traefik/traefik.toml
