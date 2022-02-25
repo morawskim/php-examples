@@ -1,0 +1,12 @@
+gos_web_socket:
+  server:
+    # The host IP address on the server which connections for the websocket server are accepted.
+    host: 0.0.0.0
+
+    # The port on the server which connections for the websocket server are accepted.
+    port: "%env(int:GOS_WEB_SOCKET_SERVER_PORT)%"
+
+    router:
+      resources:
+        - resource: '%kernel.project_dir%/config/pubsub/websocket/*'
+          type: 'glob'

@@ -1,0 +1,6 @@
+foo_topic:
+  # A unique URI pattern to identify this topic handler
+  pattern: channel/foo
+
+  # Must match the `getName` method of your Topic class
+  callback: 'foo.topic'
