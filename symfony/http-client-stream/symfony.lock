@@ -1,4 +1,10 @@
 {
+    "box/spout": {
+        "version": "v3.3.0"
+    },
+    "fakerphp/faker": {
+        "version": "v1.19.0"
+    },
     "psr/cache": {
         "version": "3.0.0"
     },

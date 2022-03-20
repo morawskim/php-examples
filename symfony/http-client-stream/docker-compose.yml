@@ -1,0 +1,31 @@
+version: '3.4'
+services:
+  httpd:
+      image: nginx:1.19-alpine
+      depends_on:
+          - php-fpm
+      labels:
+          traefik.backend: "httpd"
+          traefik.frontend.rule: "Host:report.lvh.me"
+      volumes:
+          - ./:/var/www/html
+          - ./provision/vhost.conf:/etc/nginx/conf.d/default.conf
+  php-fpm:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      volumes:
+          - ./:/var/www/html
+      environment:
+        XDEBUG_MODE: develop,debug
+        XDEBUG_CONFIG: "client_host=${MY_IP:-172.17.0.1} discover_client_host=0 client_port=9003"
+        XDEBUG_TRIGGER: "default_no_matter"
+        PHP_IDE_CONFIG: "serverName=${DEV_SERVER_NAME:-report.lvh.me}"
+  traefik:
+    image: traefik:1.7
+    command: --web --docker --logLevel=INFO
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/etc/traefik/traefik.toml
