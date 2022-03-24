@@ -32,3 +32,8 @@ We can pass context (to each dumper), which has to implement `\App\Report\Report
 1. Run shell in httpd container - `docker-compose exec httpd sh`
 2. Install tcpdump - `apk update && apk add tcpdump`  
 3. Execute `tcpdump -nn -i any -A -s 0 port 9000`
+
+## Running
+
+1. Execute `make setup`
+2. Open browser and go to website `http://report.lvh.me/csv` or `http://report.lvh.me/xlsx` 
