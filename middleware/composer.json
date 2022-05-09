@@ -1,0 +1,15 @@
+{
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "acme\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "acme\\Test\\": "tests/"
+        }
+    }
+}
