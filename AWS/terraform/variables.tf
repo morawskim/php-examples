@@ -9,6 +9,11 @@ locals {
   ec2_default_public_subnet = aws_subnet.public_subnet[var.default-az].id
 }
 
+# The AWS region to use
+variable "region" {
+  default = "eu-central-1"
+}
+
 variable "ec2_key_name" {}
 
 variable "vpc_cidr" {
