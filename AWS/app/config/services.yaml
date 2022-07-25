@@ -10,6 +10,8 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            string $sqsUrl: '%env(AWS_SQS_URL)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -31,7 +33,14 @@ services:
         arguments:
             $args:
                 region: eu-central-1
+                http:
+#                    verify: /home/marcin/.local/mitmproxy/mitmproxy-ca-cert.pem
+#                    proxy: http://127.0.0.1:8080
     Aws\CloudWatch\CloudWatchClient:
         factory: [ '@aws_sdk', 'createCloudWatch' ]
         arguments:
               - version: '2010-08-01'
+    Aws\Sqs\SqsClient:
+        factory: [ '@aws_sdk', 'createSqs' ]
+        arguments:
+            - version: '2012-11-05'

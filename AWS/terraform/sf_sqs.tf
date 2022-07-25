@@ -31,3 +31,7 @@ resource "aws_sqs_queue" "sf_sqs" {
     Environment = "sf"
   }
 }
+
+output sf_sqs_url {
+  value = aws_sqs_queue.sf_sqs.url
+}
