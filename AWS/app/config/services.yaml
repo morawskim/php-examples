@@ -44,3 +44,7 @@ services:
         factory: [ '@aws_sdk', 'createSqs' ]
         arguments:
             - version: '2012-11-05'
+    Aws\EventBridge\EventBridgeClient:
+        factory: [ '@aws_sdk', 'createEventBridge' ]
+        arguments:
+            - version: '2015-10-07'
