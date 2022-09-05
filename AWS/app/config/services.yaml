@@ -48,3 +48,7 @@ services:
         factory: [ '@aws_sdk', 'createEventBridge' ]
         arguments:
             - version: '2015-10-07'
+    Aws\SecretsManager\SecretsManagerClient:
+        factory: [ '@aws_sdk', 'createSecretsManager' ]
+        arguments:
+            - version: '2017-10-17'
