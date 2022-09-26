@@ -52,3 +52,7 @@ services:
         factory: [ '@aws_sdk', 'createSecretsManager' ]
         arguments:
             - version: '2017-10-17'
+    Aws\Ssm\SsmClient:
+        factory: [ '@aws_sdk', 'createSsm' ]
+        arguments:
+            - version: '2014-11-06'
