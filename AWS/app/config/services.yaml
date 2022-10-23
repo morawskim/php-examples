@@ -56,3 +56,7 @@ services:
         factory: [ '@aws_sdk', 'createSsm' ]
         arguments:
             - version: '2014-11-06'
+    Aws\S3\S3Client:
+            factory: [ '@aws_sdk', 'createS3' ]
+            arguments:
+                - version: '2006-03-01'
