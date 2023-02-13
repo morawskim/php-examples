@@ -60,3 +60,11 @@ services:
             factory: [ '@aws_sdk', 'createS3' ]
             arguments:
                 - version: '2006-03-01'
+    Aws\CloudWatchLogs\CloudWatchLogsClient:
+        factory: [ '@aws_sdk', 'createCloudWatchLogs' ]
+        arguments:
+            - version: '2014-03-28'
+    Aws\Polly\PollyClient:
+        factory: [ '@aws_sdk', 'createPolly' ]
+        arguments:
+            - version: '2016-06-10'
