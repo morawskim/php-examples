@@ -1,0 +1,26 @@
+version: '3.4'
+services:
+  mailhog:
+    image: mailhog/mailhog
+    labels:
+      traefik.port: "8025"
+      traefik.frontend.rule: "Host:mailhog.lvh.me"
+  traefik:
+    image: traefik:1.7
+    command: --web --docker --logLevel=DEBUG
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/etc/traefik/traefik.toml
+  cli:
+    image: thecodingmachine/php:8.1-v4-cli-node16
+    command: bash
+    volumes:
+      - ./:/app
+    user: ${MY_UID:-1000}
+    tty: true
+    working_dir: /app
+    environment:
+      PHP_EXTENSIONS: xdebug
