@@ -1,0 +1,25 @@
+version: '3.4'
+services:
+  php:
+    build: .
+    volumes:
+        - ./:/app
+    working_dir: /app
+    tty: true
+
+  mongodb:
+     image: mongo:6.0
+     environment:
+         - MONGO_INITDB_ROOT_USERNAME=admin
+         - MONGO_INITDB_ROOT_PASSWORD=adminpassword
+         - MONGO_INITDB_DATABASE=testdb
+     volumes:
+         - php-mongodb-example:/data/db
+
+  adminer:
+    image: adminer:4.7
+    depends_on:
+        - mongodb
+
+volumes:
+  php-mongodb-example:
