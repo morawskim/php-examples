@@ -36,6 +36,7 @@ services:
                 http:
 #                    verify: /home/marcin/.local/mitmproxy/mitmproxy-ca-cert.pem
 #                    proxy: http://127.0.0.1:8080
+    Aws\Sdk: '@aws_sdk'
     Aws\CloudWatch\CloudWatchClient:
         factory: [ '@aws_sdk', 'createCloudWatch' ]
         arguments:
@@ -68,3 +69,8 @@ services:
         factory: [ '@aws_sdk', 'createPolly' ]
         arguments:
             - version: '2016-06-10'
+    Aws\MediaConvert\MediaConvertClient:
+        factory: [ '\App\MediaConvertFactory', 'factoryMediaConvert' ]
+        arguments:
+            - '@aws_sdk'
+            - version: '2017-08-29'
