@@ -33,7 +33,8 @@ We can see the path to "libnotify.so.4" - "/lib64/libnotify.so.4".
 We can use nm command to display exported symbols = `nm -D /lib64/libnotify.so.4`
 
 Our simple script need to call a few C function - notify_init, notify_notification_new, notify_notification_show and notify_uninit.
-We can extract [declaration of these functions from header file](Based on https://github.com/GNOME/libnotify/blob/150af91dc3cf4b35b2e11202cbb616cd56fb6106/libnotify/notification.h).
+We can extract [declaration of these functions from header file](Based on https://github.com/GNOME/libnotify/blob/150af91dc3cf4b35b2e11202cbb616cd56fb6106/libnotify/notification.h). Additional types from glib we can extract from [php-gtk-ffi project](https://github.com/scorninpc/php-gtk-ffi/blob/2260c0d65b821f8fdb77534b340aecd053d946f1/gtk.h)
+
 The main problem is with GObject declaration, because we need also add declaration for some other types.
 
 ![notification](./notification.png)
