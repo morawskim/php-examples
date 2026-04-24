@@ -25,14 +25,17 @@ strace -e trace=file -f -y php ./write-file.php 2>&1 | grep '"/tmp/' | grep -v '
 To monitor a specific directory (e.g., `/var/www/`) while excluding common system paths like `/usr/` and `/etc/`, and ignoring files with the `.php` extension:
 
 ```bash
-strace -e trace=file -f -y php ./write-file.php 2>&1 | grep -vE '"(/usr/|/etc/|/lib64/|/proc/|sys/)' | grep -v '\.php"'
+strace -e trace=file -f -y php ./write-file.php 2>&1 | grep -vE '"(/usr/|/etc/|/lib64/|/proc/|sys/|/dev/|/bin/|/sbin/|/var/www/html/vendor/)' | grep -v '\.php"'
 ```
-
 Note: Replace the directory in the filter as needed. The above example excludes:
 * `/usr/`
 * `/etc/`
 * `/lib64/`
 * `/proc/`
 * `/sys/`
+* `/dev/`
+* `/bin/`
+* `/sbin/`
+* `/var/www/html/vendor/`
 
 and filters out `.php` files from the entire output.
